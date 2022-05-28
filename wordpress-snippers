@@ -1,0 +1,211 @@
+//be mindful, is all i ask.
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * @what    Add facebook pixel code
+ * @where	Within the theme's head tag, basically all pages
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://theme.co/forum/t/how-to-definitively-add-facebook-tracking-pixel-to-child-theme/32783/2
+ */
+
+add_action( 'wp_head', 'fb_pixie' );
+function fb_pixie()
+{
+	?>
+	<!-- Replace this line with Pixel Code provided by Facebook -->
+	<?php 
+}
+
+//End
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+/**
+ * @what    Create Buy Now Button dynamically before Add To Cart button
+ * @where	product pages
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://themeforest.net/comments/22328421
+ */
+
+add_action( 'woocommerce_after_add_to_cart_button', 'add_content_after_addtocart' );
+function add_content_after_addtocart() 
+{
+	$current_product_id = get_the_ID();
+	$product = wc_get_product( $current_product_id );
+	$checkout_url = WC()->cart->get_checkout_url();
+	if( $product->is_type( 'simple' ) )
+	{
+		echo '<a href="'.$checkout_url.'?add-to-cart='.$current_product_id.'" class="buy-now button">Buy Now</a>';
+	}
+
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ * @what    change the font size and color in the checkout page (titles and input fields) how can i do this
+ * @where	checkout page
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://themeforest.net/comments/20348628
+ * @type	php
+ * @how		
+ */
+
+add_action('wp_head','hook_javascript');
+function hook_javascript() 
+{
+	?>
+    	<script type=”text/javascript” src=”https://link.to.script.js” charset=”UTF-8”></script>
+	<?php    
+}
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+/*
+ * @what    Load Google Tag Manager (GTM) in the header tag
+ * @where	all pages
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://themeforest.net/comments/22328421
+ * @type	php
+ * @how		
+ */
+
+
+// Hook in
+add_action('wp_head', 'gtm_head_code');
+//Our call back
+function gtm_head_code(){
+	?>
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-XXXXXXX');
+		</script>
+
+	<?php
+}
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+/*
+ * @what    Load Google Tag Manager (GTM) in the footer tag
+ * @where	all pages
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://themeforest.net/comments/22328421
+ * @type	php
+ * @how		-
+ */
+
+add_action('wp_footer', 'gtm_body_code');
+function gtm_body_code(){
+	?>
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+			height="0" width="0" style="display:none;visibility:hidden"></iframe>
+		</noscript>
+
+	<?php
+}
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+/**
+ * @what    Sticky add to cart section doen´t work in mobile. There is any way to make it work?
+ * @where	checkout page
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://themeforest.net/comments/20348628
+ * @type	css
+ * @how		Please copy and paste the below given CSS code to Appearance >> Theme Options >> Skin >> Custom CSS and check your site after removing the mobile browser cache.
+ */
+
+@media (max-width: 767px)
+{
+	.sticky-product {display: inline-block !important;}
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+/**
+ * @what    How keep opened coupon field when checkout page load? And how to move coupon field before order details? 
+ * @where	checkout page
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://themeforest.net/comments/23706794
+ * @type	css
+ */
+
+.woocommerce-checkout form.checkout_coupon {
+    display: block !important;
+}
+.woocommerce-checkout .woocommerce-info a.showcoupon {
+    display: none !important;
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+/**
+ * @what    how do i remove the grand total and the total from the oreder rivise, from the check out page
+ * @where	checkout page
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://themeforest.net/comments/22505641
+ * @type	css
+ */
+
+.woocommerce-checkout table.shop_table.review-order.woocommerce-checkout-review-order-table thead tr th.product-total {
+    display: none !important;
+}
+.woocommerce-checkout table.shop_table.review-order.woocommerce-checkout-review-order-table tbody tr.cart_item td.product-total {
+    display: none !important;
+}
+.woocommerce-checkout table.shop_table.review-order.woocommerce-checkout-review-order-table tfoot tr.cart-subtotal td {
+    display: none !important;
+}
+.woocommerce-checkout table.shop_table.review-order.woocommerce-checkout-review-order-table tfoot tr.order-total td {
+    display: none !important;
+}
+.woocommerce-checkout table.shop_table.review-order.woocommerce-checkout-review-order-table tfoot tr.order-total th {
+    display: none !important;
+}
+.woocommerce-checkout .form-row.place-order h3 {
+    display: none !important;
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+/**
+ * @what    change the font size and color in the checkout page (titles and input fields) how can i do this
+ * @where	checkout page
+ * @who		me?
+ * @when	yyyymmdd
+ * @ref		https://themeforest.net/comments/20348628
+ * @type	css
+ * @how		Please copy and paste the below given CSS code to the checkout page Custom CSS option and change the color and size value as per your requirements and check your site after removing the browser cache
+ */
+
+.woocommerce-checkout .woocommerce-billing-fields.clearfix h3 {
+    font-size: 20px !important;
+    color: red !important;
+}
+.woocommerce-checkout .form-row label {
+    font-size: 20px !important;
+    color: orange !important;
+}
+.woocommerce-checkout-review-order .row .col-lg-6 h3 {
+    font-size: 20px !important;
+    color: red !important;
+}        
+
